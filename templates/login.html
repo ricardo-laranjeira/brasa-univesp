@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Login</title>
+  </head>
+  <body>
+    <header>
+    <!-- place navbar here -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Welcome to system!</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  {% if error %}
+    <p class="error text-center"><strong>Error:</strong> {{ error }}
+  {% endif %}
+  <div class="container mt-5 pt-5">
+    <div class="row">
+      <div class="col-12 col-sm-8 col-md-6 m-auto">
+        <h1 class="text-center">Trash Recycle System</h1>
+        <div class="card">
+          <div class="card-body">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+            </svg>
+            <form action="/login" method="post">
+              <input type="text" name="email" id="email" class="form-control my-4 py-2" placeholder="Email" aria-describedby="email" required>
+              <input type="password" name="password" id="password" class="form-control my-4 py-2" placeholder="Password" aria-describedby="password" required>
+              <div class="text-center mt-3">
+                <button class="btn btn-primary">Login</button>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Register</a>
+              </div>
+            </form>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <h3>{{ message }}</h3>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tab-user" data-bs-toggle="tab" data-bs-target="#user" type="button" role="tab" aria-controls="user" aria-selected="true">User</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-enterprise" data-bs-toggle="tab" data-bs-target="#enterprise" type="button" role="tab" aria-controls="enterprise" aria-selected="false">Enterprise</button>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="user-tab">
+                        <div class="mb-3"></div>
+                        <form action="/add_user" method="post" class="needs-validation" novalidate>
+                          <div class="mb-3">
+                            <input type="text" class="form-control" name="user-fullname" id="user-fullname" placeholder="Full name" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="email" class="form-control" name="user-email" id="user-email" aria-describedby="emailHelp" placeholder="Email address" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="password" class="form-control" name="user-password" id="user-password" placeholder="Password" required>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                      </form>
+                      </div>
+                      <div class="tab-pane fade" id="enterprise" role="tabpanel" aria-labelledby="enterprise-tab">
+                        <div class="mb-3"></div>
+                        <form action="/add_enterprise" method="post" class="needs-validation" novalidate>
+                          <div class="mb-3">
+                            <input type="text" class="form-control" name="enterprise-cnpj" id="enterprise-cnpj" placeholder="CNPJ" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="text" class="form-control" name="enterprise-name" id="enterprise-name" placeholder="Name" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="text" class="form-control" name="enterprise-address" id="enterprise-address" placeholder="Address" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="email" class="form-control" name="enterprise-email" id="enterprise-email" aria-describedby="emailHelp" placeholder="Email address" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="password" class="form-control" name="enterprise-password" id="enterprise-password" placeholder="Password" required>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+      (() => {
+      'use strict'
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation')
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+    </script>
+  </body>
+</html>
